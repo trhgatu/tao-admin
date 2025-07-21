@@ -1,6 +1,10 @@
 // src/services/axios.ts
 import axios from 'axios';
-import type { InternalAxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import type {
+  InternalAxiosRequestConfig,
+  AxiosInstance,
+  AxiosResponse,
+} from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -19,12 +23,12 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  error => Promise.reject(error)
+  (error) => Promise.reject(error)
 );
 
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
-  error => {
+  (error) => {
     const message = error.response?.data?.message || 'An error occurred';
     return Promise.reject(new Error(message));
   }

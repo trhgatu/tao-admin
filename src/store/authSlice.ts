@@ -45,7 +45,9 @@ export const restoreAuth = createAsyncThunk<
     return { token, user };
   } catch (error) {
     const err = error as AxiosError<ErrorResponse>;
-    return rejectWithValue(err.response?.data?.message || 'Failed to restore auth');
+    return rejectWithValue(
+      err.response?.data?.message || 'Failed to restore auth'
+    );
   }
 });
 

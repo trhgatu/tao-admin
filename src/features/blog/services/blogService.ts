@@ -9,7 +9,9 @@ export interface GetBlogsParams {
   search?: string;
 }
 
-export const getBlogs = async (params?: GetBlogsParams): Promise<{
+export const getBlogs = async (
+  params?: GetBlogsParams
+): Promise<{
   data: IBlog[];
   pagination: {
     total: number;
