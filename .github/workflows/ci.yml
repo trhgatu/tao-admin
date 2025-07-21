@@ -25,5 +25,11 @@ jobs:
       - name: 🧼 Run ESLint
         run: npm run lint
 
+      - name: 🔍 Type check
+        run: npm run type-check
+
+      - name: 📝 Format check
+        run: npm run format:check
+
       - name: 🔨 Build project
         run: npm run build

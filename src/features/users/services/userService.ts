@@ -7,7 +7,9 @@ export interface GetUsersParams {
   limit?: number;
 }
 
-export const getUsers = async (params?: GetUsersParams): Promise<{
+export const getUsers = async (
+  params?: GetUsersParams
+): Promise<{
   data: IUser[];
   pagination: {
     total: number;

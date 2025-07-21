@@ -1,14 +1,14 @@
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { loginSchema } from '../validators/loginSchema'
-import type { LoginFormValues } from '../validators/loginSchema'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
-import { useAuth } from '../hooks/useAuth'
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema } from '../validators/loginSchema';
+import type { LoginFormValues } from '../validators/loginSchema';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useAuth } from '../hooks/useAuth';
 
 export const LoginForm = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { login, isAuthenticated, loading, error } = useAuth();
 
   const {
@@ -17,23 +17,23 @@ export const LoginForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-  })
+  });
 
   const onSubmit = async (data: LoginFormValues) => {
-    await login(data)
-  }
+    await login(data);
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/')
+      navigate('/');
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     if (error) {
-      toast.error(error)
+      toast.error(error);
     }
-  }, [error])
+  }, [error]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -47,5 +47,5 @@ export const LoginForm = () => {
         {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
       </button>
     </form>
-  )
-}
+  );
+};

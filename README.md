@@ -22,6 +22,7 @@
 <td>
 
 **⚡ Performance**
+
 - Vite 5 lightning-fast HMR
 - React 18 concurrent features
 - Optimized build pipeline
@@ -31,6 +32,7 @@
 <td>
 
 **🏗️ Architecture**
+
 - Admin-first design
 - Feature-based organization
 - Modular folder structure
@@ -42,6 +44,7 @@
 <td>
 
 **🔐 Authentication**
+
 - Complete auth flow
 - Protected routes
 - Auth state persistence
@@ -51,6 +54,7 @@
 <td>
 
 **🛠️ Developer Experience**
+
 - TypeScript for type safety
 - ESLint + Prettier
 - GitHub Actions CI/CD
@@ -64,18 +68,18 @@
 
 ## 🧠 Tech Stack
 
-| Category | Technologies |
-|----------|-------------|
-| **Build Tool** | Vite 5 |
-| **Framework** | React 18 |
-| **Language** | TypeScript |
-| **State Management** | Redux Toolkit, RTK Query |
-| **HTTP Client** | Axios |
-| **Validation** | Zod |
-| **Routing** | React Router DOM |
-| **Testing** | Vitest, React Testing Library |
-| **Linting** | ESLint, Prettier |
-| **CI/CD** | GitHub Actions |
+| Category             | Technologies                  |
+| -------------------- | ----------------------------- |
+| **Build Tool**       | Vite 5                        |
+| **Framework**        | React 18                      |
+| **Language**         | TypeScript                    |
+| **State Management** | Redux Toolkit, RTK Query      |
+| **HTTP Client**      | Axios                         |
+| **Validation**       | Zod                           |
+| **Routing**          | React Router DOM              |
+| **Testing**          | Vitest, React Testing Library |
+| **Linting**          | ESLint, Prettier              |
+| **CI/CD**            | GitHub Actions                |
 
 ---
 
@@ -138,18 +142,21 @@ trhgatu-inf-vite-frontend-template/
 ### Prerequisites
 
 Make sure you have the following installed:
-- Node.js 18+ 
+
+- Node.js 18+
 - npm, yarn, or pnpm
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/trhgatu/trhgatu-inf-vite-frontend-template.git
    cd trhgatu-inf-vite-frontend-template
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    # or
@@ -159,12 +166,14 @@ Make sure you have the following installed:
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env.local
    # Edit .env.local with your configuration
    ```
 
 4. **Run the development server**
+
    ```bash
    npm run dev
    # or
@@ -174,7 +183,7 @@ Make sure you have the following installed:
    ```
 
 5. **Open your browser**
-   
+
    Navigate to [http://localhost:5173](http://localhost:5173) to see your application.
 
 ---
@@ -196,11 +205,11 @@ import { useAuth } from '@/hooks/useAuth';
 
 function AdminDashboard() {
   const { user, isAuthenticated, login, logout } = useAuth();
-  
+
   if (!isAuthenticated) {
     return <div>Redirecting to login...</div>;
   }
-  
+
   return (
     <div>
       <h1>Welcome to Admin Panel, {user?.name}!</h1>
@@ -232,6 +241,7 @@ const handleLogin = async (credentials: LoginCredentials) => {
 ### Feature-Based Organization
 
 Each feature is self-contained with its own:
+
 - **Components**: Feature-specific UI components
 - **Hooks**: Custom hooks for business logic
 - **Services**: API calls and data fetching
@@ -249,12 +259,14 @@ Each feature is self-contained with its own:
 ## ⚡ Performance Optimizations
 
 ### Vite 5 Features
+
 - **Lightning Fast HMR**: Sub-second hot module replacement
 - **Optimized Build**: Tree-shaking and code splitting
 - **ES Modules**: Native ESM support
 - **Plugin Ecosystem**: Rich plugin ecosystem
 
 ### React 18 Features
+
 - **Concurrent Features**: Improved user experience
 - **Automatic Batching**: Better performance
 - **Suspense**: Better loading states
@@ -263,16 +275,16 @@ Each feature is self-contained with its own:
 
 ## 🛠️ Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Fix ESLint issues |
-| `npm run format` | Format code with Prettier |
-| `npm run type-check` | Run TypeScript compiler |
-| `npm run test` | Run tests with Vitest |
+| Command              | Description               |
+| -------------------- | ------------------------- |
+| `npm run dev`        | Start development server  |
+| `npm run build`      | Build for production      |
+| `npm run preview`    | Preview production build  |
+| `npm run lint`       | Run ESLint                |
+| `npm run lint:fix`   | Fix ESLint issues         |
+| `npm run format`     | Format code with Prettier |
+| `npm run type-check` | Run TypeScript compiler   |
+| `npm run test`       | Run tests with Vitest     |
 
 ---
 
@@ -282,18 +294,19 @@ Automated workflow with GitHub Actions (`.github/workflows/ci.yml`):
 
 ```yaml
 ✅ Code Quality Checks
-  ├── ESLint validation
-  ├── Prettier formatting
-  ├── TypeScript compilation
-  └── Unit tests with Vitest
+├── ESLint validation
+├── Prettier formatting
+├── TypeScript compilation
+└── Unit tests with Vitest
 
 ✅ Build & Deploy
-  ├── Production build
-  ├── Build artifact caching
-  └── Deployment (when configured)
+├── Production build
+├── Build artifact caching
+└── Deployment (when configured)
 ```
 
 The pipeline runs on:
+
 - Push to `main` branch
 - Pull requests to `main`
 - Manual workflow dispatch
@@ -303,21 +316,25 @@ The pipeline runs on:
 ## 📦 Key Dependencies
 
 ### Core
+
 - **vite**: ^5.0.0
 - **react**: ^18.0.0
 - **react-dom**: ^18.0.0
 - **typescript**: ^5.0.0
 
 ### Routing & State
+
 - **react-router-dom**: ^6.8.0
 - **@reduxjs/toolkit**: ^1.9.0
 - **react-redux**: ^8.1.0
 
 ### Validation & HTTP
+
 - **zod**: ^3.22.0
 - **axios**: ^1.5.0
 
 ### Development & Testing
+
 - **vitest**: ^0.34.0
 - **@testing-library/react**: ^13.4.0
 - **eslint**: ^8.50.0
@@ -330,12 +347,14 @@ The pipeline runs on:
 ### Adding New Features
 
 1. **Create Feature Directory**
+
    ```bash
    mkdir src/features/my-feature
    cd src/features/my-feature
    ```
 
 2. **Add Feature Files**
+
    ```
    my-feature/
    ├── components/
@@ -346,14 +365,15 @@ The pipeline runs on:
    ```
 
 3. **Create Redux Slice**
+
    ```typescript
    // src/store/slices/myFeatureSlice.ts
    import { createSlice } from '@reduxjs/toolkit';
-   
+
    export const myFeatureSlice = createSlice({
      name: 'myFeature',
      initialState: {},
-     reducers: {}
+     reducers: {},
    });
    ```
 
@@ -381,10 +401,10 @@ const StyledButton = styled.button`
   color: white;
   font-weight: 600;
   cursor: pointer;
-  
+
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   }
 `;
 ```
@@ -394,18 +414,21 @@ const StyledButton = styled.button`
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
+
 ```bash
 npm i -g vercel
 vercel --prod
 ```
 
 ### Netlify
+
 ```bash
 npm run build
 # Upload dist/ folder to Netlify
 ```
 
 ### Docker
+
 ```dockerfile
 FROM node:18-alpine
 WORKDIR /app
@@ -418,6 +441,7 @@ CMD ["npm", "run", "preview"]
 ```
 
 ### Other Platforms
+
 - **Railway**: One-click deployment
 - **AWS S3**: Static hosting with CloudFront
 - **GitHub Pages**: Free static hosting
@@ -427,6 +451,7 @@ CMD ["npm", "run", "preview"]
 ## 🧪 Testing Strategy
 
 ### Unit Testing with Vitest
+
 ```typescript
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
@@ -441,6 +466,7 @@ describe('LoginForm', () => {
 ```
 
 ### Integration Testing
+
 ```typescript
 import { renderWithProviders } from '@/utils/test-utils';
 import { AuthProvider } from '@/features/auth';
@@ -487,14 +513,17 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 ## 📚 Learning Resources
 
 ### Vite Resources
+
 - [Vite Official Guide](https://vitejs.dev/guide/)
 - [Vite Plugin Ecosystem](https://vitejs.dev/plugins/)
 
 ### React & TypeScript
+
 - [React 18 Documentation](https://react.dev/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 
 ### State Management
+
 - [Redux Toolkit Documentation](https://redux-toolkit.js.org/)
 - [RTK Query Guide](https://redux-toolkit.js.org/rtk-query/overview)
 
@@ -505,12 +534,14 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 ### Common Issues
 
 **Port already in use**
+
 ```bash
 # Kill process on port 5173
 npx kill-port 5173
 ```
 
 **Module resolution errors**
+
 ```bash
 # Clear node_modules and reinstall
 rm -rf node_modules package-lock.json
@@ -518,6 +549,7 @@ npm install
 ```
 
 **Build failures**
+
 ```bash
 # Check TypeScript errors
 npm run type-check
@@ -553,7 +585,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ⚡ by [Infinity (trhgatu)](https://github.com/trhgatu)**
 
-*"Every layout, every route, every pixel – a reflection of the warrior within."*
+_"Every layout, every route, every pixel – a reflection of the warrior within."_
 
 ⭐ **Star this repo if you found it helpful!**
 

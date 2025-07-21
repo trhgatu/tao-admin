@@ -1,8 +1,8 @@
-import { Outlet } from 'react-router-dom'
-import { Sidebar } from '@/components/layout/Sidebar'
-import { Header } from '@/components/layout/Header'
+import { Outlet } from 'react-router-dom';
+import { Sidebar } from '@/components/layout/Sidebar';
+import { Header } from '@/components/layout/Header';
 
-export const AdminLayout= () => {
+export const AdminLayout = () => {
   return (
     <div className="flex h-screen">
       <Sidebar />
@@ -13,5 +13,5 @@ export const AdminLayout= () => {
         </main>
       </div>
     </div>
-  )
-}
+  );
+};
