@@ -9,6 +9,7 @@ import { usersRoutes } from '@/features/users/routes/user.route';
 import { blogsRoutes } from '@/features/blog/routes/blog.route';
 import { memoriesRoutes } from '@/features/memories/routes/memories.route';
 import { journalsRoutes } from '@/features/journal/routes/journal.route';
+import { quotesRoutes } from '@/features/quote/routes/quote.route';
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
       ...blogsRoutes,
       ...memoriesRoutes,
       ...journalsRoutes,
+      ...quotesRoutes,
     ],
   },
   {
