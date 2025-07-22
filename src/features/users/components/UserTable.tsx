@@ -1,33 +1,65 @@
-// src/features/users/components/UserTable.tsx
 import type { IUser } from '@/types/user';
+import { Table, Tag } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 
 interface Props {
   users: IUser[];
 }
 
 export const UserTable = ({ users }: Props) => {
+  const columns: ColumnsType<IUser> = [
+    {
+      title: 'Full name',
+      dataIndex: 'fullName',
+      key: 'fullName',
+      render: (text: string) => <strong>{text}</strong>,
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      render: (email: string) => <a href={`mailto:${email}`}>{email}</a>,
+    },
+    {
+      title: 'Role',
+      key: 'role',
+      render: (_: unknown, record: IUser) => (
+        <Tag color="blue">{record.roleId?.name ?? 'Unknown'}</Tag>
+      ),
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: string) => (
+        <Tag
+          color={
+            status === 'active'
+              ? 'green'
+              : status === 'inactive'
+                ? 'red'
+                : 'default'
+          }
+        >
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Created',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (date: string) => new Date(date).toLocaleDateString(),
+    },
+  ];
+
   return (
-    <table className="w-full text-left border">
-      <thead>
-        <tr className="bg-gray-100">
-          <th className="p-2">Full name</th>
-          <th className="p-2">Email</th>
-          <th className="p-2">Role</th>
-          <th className="p-2">Status</th>
-          <th className="p-2">Created</th>
-        </tr>
-      </thead>
-      <tbody>
-        {users.map((user) => (
-          <tr key={user._id} className="border-t">
-            <td className="p-2">{user.fullName}</td>
-            <td className="p-2">{user.email}</td>
-            <td className="p-2">{user.roleId.name}</td>
-            <td className="p-2">{user.status}</td>
-            <td className="p-2">{user.createdAt}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table<IUser>
+      rowKey={(record) => record._id}
+      columns={columns}
+      dataSource={users}
+      pagination={false}
+      bordered
+    />
   );
 };
