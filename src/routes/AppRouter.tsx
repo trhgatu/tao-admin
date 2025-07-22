@@ -7,6 +7,7 @@ import { dashboardRoutes } from '@/features/dashboard/routes/dashboard.route';
 import { authRoutes } from '@/features/auth/routes/auth.route';
 import { usersRoutes } from '@/features/users/routes/user.route';
 import { blogsRoutes } from '@/features/blog/routes/blog.route';
+import { memoriesRoutes } from '@/features/memories/routes/memories.route';
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +18,12 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <AdminLayout />,
-    children: [...dashboardRoutes, ...usersRoutes, ...blogsRoutes],
+    children: [
+      ...dashboardRoutes,
+      ...usersRoutes,
+      ...blogsRoutes,
+      ...memoriesRoutes,
+    ],
   },
   {
     path: '*',
