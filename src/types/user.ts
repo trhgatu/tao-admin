@@ -6,6 +6,7 @@ export interface IUser {
   gender: 'male' | 'female' | 'other';
   emailVerified: boolean;
   isDeleted: boolean;
+  avatarUrl?: string;
   createdAt: string;
   updatedAt: string;
   lastLoginAt?: string;

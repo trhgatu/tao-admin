@@ -1,23 +1,37 @@
 import { useAuth } from '@/features/auth/hooks/useAuth';
+import { Dropdown, Menu, Avatar, Typography } from 'antd';
+import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
 
 export const Header = () => {
   const { user, logout } = useAuth();
 
-  return (
-    <header className="flex items-center justify-between px-4 py-2 border-b">
-      <h1 className="text-lg font-semibold">Admin Panel</h1>
+  const menu = (
+    <Menu>
+      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
+        Đăng xuất
+      </Menu.Item>
+    </Menu>
+  );
 
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-gray-700">
-          Xin chào, {user?.fullName}
-        </span>
-        <button
-          onClick={logout}
-          className="text-red-500 text-sm hover:underline"
-        >
-          Đăng xuất
-        </button>
-      </div>
+  return (
+    <header className="flex items-center justify-between px-6 py-4">
+      <Typography.Title level={4} className="m-0">
+        Admin Panel
+      </Typography.Title>
+
+      <Dropdown overlay={menu} placement="bottomRight" arrow>
+        <div className="flex items-center cursor-pointer gap-3">
+          <Avatar
+            size="large"
+            icon={<UserOutlined />}
+            src={user?.avatarUrl}
+            alt={user?.fullName}
+          />
+          <span className="text-gray-700 font-medium">
+            Xin chào, {user?.fullName || 'Khách'}
+          </span>
+        </div>
+      </Dropdown>
     </header>
   );
 };

@@ -1,4 +1,6 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import { Menu } from 'antd';
+import type { MenuProps } from 'antd';
 
 const navItems = [
   { label: 'Dashboard', path: '/' },
@@ -7,28 +9,25 @@ const navItems = [
   { label: 'Memories', path: '/memories' },
   { label: 'Journals', path: '/journals' },
   { label: 'Quotes', path: '/quotes' },
-  // Add more as needed...
 ];
 
 export const Sidebar = () => {
+  const location = useLocation();
+
+  const items: MenuProps['items'] = navItems.map((item) => ({
+    key: item.path,
+    label: <NavLink to={item.path}>{item.label}</NavLink>,
+  }));
+
   return (
-    <aside className="w-64 bg-white border-r p-4">
+    <aside className="w-64 p-4">
       <h1 className="text-xl font-bold mb-6">Admin</h1>
-      <nav className="flex flex-col gap-2">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            className={({ isActive }) =>
-              `block px-3 py-2 rounded hover:bg-gray-100 ${
-                isActive ? 'bg-gray-100 font-semibold' : ''
-              }`
-            }
-          >
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
+      <Menu
+        mode="inline"
+        theme="light"
+        selectedKeys={[location.pathname]}
+        items={items}
+      />
     </aside>
   );
 };
