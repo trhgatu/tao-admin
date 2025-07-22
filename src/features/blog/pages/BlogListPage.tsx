@@ -9,7 +9,7 @@ export const BlogListPage = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchBlogs = async () => {
       try {
         setLoading(true);
         const res = await getBlogs();
@@ -18,7 +18,7 @@ export const BlogListPage = () => {
         setLoading(false);
       }
     };
-    fetchUsers();
+    fetchBlogs();
   }, []);
 
   return (
