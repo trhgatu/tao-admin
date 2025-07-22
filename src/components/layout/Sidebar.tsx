@@ -5,6 +5,7 @@ const navItems = [
   { label: 'Users', path: '/users' },
   { label: 'Blogs', path: '/blogs' },
   { label: 'Memories', path: '/memories' },
+  { label: 'Journals', path: '/journals' },
   // Add more as needed...
 ];
 
