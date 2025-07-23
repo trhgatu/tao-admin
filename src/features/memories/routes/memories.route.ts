@@ -1,5 +1,9 @@
 import React from 'react';
-import { MemoriesListPage, MemoryCreatePage } from '@/features/memories/pages';
+import {
+  MemoriesDetailPage,
+  MemoriesListPage,
+  MemoryCreatePage,
+} from '@/features/memories/pages';
 export const memoriesRoutes = [
   {
     path: '/memories',
@@ -8,5 +12,9 @@ export const memoriesRoutes = [
   {
     path: '/memories/create',
     element: React.createElement(MemoryCreatePage),
+  },
+  {
+    path: '/memories/:id',
+    element: React.createElement(MemoriesDetailPage),
   },
 ];
