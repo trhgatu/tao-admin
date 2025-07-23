@@ -1,12 +1,10 @@
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Header } from '@/components/layout/Header';
 
 export const Dashboard = () => {
   return (
     <div className="flex flex-1 flex-col gap-6 p-6 min-h-screen">
       <div className="flex items-center justify-between">
         <SidebarTrigger />
-        <Header />
       </div>
       <div className="grid gap-6 md:grid-cols-3">
         <div className="bg-white shadow-md rounded-xl aspect-video flex items-center justify-center text-gray-400 font-semibold">
