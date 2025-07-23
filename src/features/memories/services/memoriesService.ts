@@ -37,3 +37,18 @@ export const getMemoryById = async (id: string): Promise<IMemory> => {
   const res = await axiosInstance.get(`/memories/${id}`);
   return res.data.data;
 };
+
+export const uploadMemoryImage = async (file: File, folder = 'memories') => {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const res = await axiosInstance.post(
+    `/uploads/upload-image?folder=${folder}`,
+    formData,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }
+  );
+
+  return res.data.data.url;
+};

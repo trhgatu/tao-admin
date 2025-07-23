@@ -16,14 +16,13 @@ import {
 import {
   ArrowLeftOutlined,
   EditOutlined,
-  DeleteOutlined,
   EnvironmentOutlined,
   CalendarOutlined,
   TagsOutlined,
   ShareAltOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { getMemoryById, deleteMemory } from '../services/memoriesService';
+import { getMemoryById } from '../services/memoriesService';
 import type { IMemory } from '@/types';
 
 const { Title, Paragraph, Text } = Typography;
@@ -74,22 +73,10 @@ export const MemoriesDetailPage = () => {
     navigate(`/memories/${id}/edit`);
   };
 
-  const handleDelete = async () => {
-    if (!id) return;
-
-    try {
-      await deleteMemory(id);
-      navigate('/memories');
-    } catch (err) {
-      console.error('Delete error:', err);
-    }
-  };
-
   const handleGoBack = () => {
     navigate('/memories');
   };
 
-  // Loading state
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -159,9 +146,6 @@ export const MemoriesDetailPage = () => {
                 type="primary"
               >
                 Edit
-              </Button>
-              <Button icon={<DeleteOutlined />} onClick={handleDelete} danger>
-                Delete
               </Button>
             </Space>
           </div>

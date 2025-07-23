@@ -2,6 +2,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { memorySchema } from '@/features/memories/validators/memorySchema';
 import type { MemoryInput } from '@/features/memories/validators/memorySchema';
+import { uploadMemoryImage } from '../services/memoriesService';
 import {
   Form,
   Input,
@@ -13,18 +14,28 @@ import {
   Col,
   Space,
   Typography,
+  Upload,
+  message,
+  Spin,
+  Progress,
 } from 'antd';
 import {
   CalendarOutlined,
   EnvironmentOutlined,
   TagsOutlined,
   SmileOutlined,
+  InboxOutlined,
+  PlusOutlined,
+  LoadingOutlined,
 } from '@ant-design/icons';
+import { useState } from 'react';
+import type { UploadProps } from 'antd';
 import dayjs from 'dayjs';
 
 const { TextArea } = Input;
 const { Title } = Typography;
 const { Option } = Select;
+const { Dragger } = Upload;
 
 type Props = {
   defaultValues?: MemoryInput;
@@ -32,10 +43,16 @@ type Props = {
 };
 
 export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setValue,
   } = useForm<MemoryInput>({
     resolver: zodResolver(memorySchema),
     defaultValues: {
@@ -45,13 +62,87 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
     },
   });
 
+  const uploadProps: UploadProps = {
+    name: 'file',
+    multiple: false,
+    maxCount: 1,
+    showUploadList: false,
+    beforeUpload: (file) => {
+      const isImage = file.type.startsWith('image/');
+      if (!isImage) {
+        message.error('You can only upload image files!');
+        return false;
+      }
+      const isLt5M = file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        message.error('Image must be smaller than 5MB!');
+        return false;
+      }
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      return false;
+    },
+  };
+
+  const handleFormSubmit = async (data: MemoryInput) => {
+    let finalImageUrl = '';
+    if (selectedFile) {
+      setUploading(true);
+      setUploadProgress(0);
+
+      try {
+        const progressInterval = setInterval(() => {
+          setUploadProgress((prev) => {
+            if (prev >= 90) {
+              clearInterval(progressInterval);
+              return 90;
+            }
+            return prev + 10;
+          });
+        }, 100);
+
+        finalImageUrl = await uploadMemoryImage(selectedFile, 'memories');
+
+        clearInterval(progressInterval);
+        setUploadProgress(100);
+
+        message.success('Image uploaded successfully!');
+      } catch {
+        message.error('Failed to upload image. Please try again.');
+        setUploading(false);
+        setUploadProgress(0);
+        return;
+      }
+
+      setUploading(false);
+    }
+
+    onSubmit({
+      ...data,
+      imageUrl: finalImageUrl,
+    });
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedFile(null);
+    setPreviewUrl('');
+    setValue('imageUrl', '');
+    setUploadProgress(0);
+  };
+
+  const isFormDisabled = uploading || isSubmitting;
+
   return (
     <div className="max-w-4xl mx-auto">
       <form
         className="ant-form ant-form-vertical"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleFormSubmit)}
       >
-        {/* Basic Information Card */}
         <Card
           title={
             <Title level={4} className="mb-0">
@@ -76,6 +167,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       {...field}
                       placeholder="Enter memory title..."
                       size="large"
+                      disabled={isFormDisabled}
                     />
                   )}
                 />
@@ -85,7 +177,6 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
             <Col span={24}>
               <Form.Item
                 label="Description"
-                required
                 validateStatus={errors.description ? 'error' : ''}
                 help={errors.description?.message}
               >
@@ -98,6 +189,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       placeholder="Describe your memory in detail..."
                       rows={4}
                       size="large"
+                      disabled={isFormDisabled}
                     />
                   )}
                 />
@@ -115,6 +207,94 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
           }
           className="mb-6"
         >
+          {/* Image Upload Section */}
+          <Row gutter={24}>
+            <Col span={24}>
+              <Form.Item
+                label="Memory Image"
+                help="Select an image to represent this memory (Max 5MB, JPG/PNG). Image will be uploaded when you create the memory."
+              >
+                {!selectedFile ? (
+                  <Dragger
+                    {...uploadProps}
+                    className="upload-area"
+                    disabled={isFormDisabled}
+                  >
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined
+                        style={{ fontSize: '48px', color: '#1890ff' }}
+                      />
+                    </p>
+                    <p className="ant-upload-text">
+                      Click or drag image to this area to select
+                    </p>
+                    <p className="ant-upload-hint">
+                      Image will be uploaded when you create the memory. Support
+                      JPG, PNG files. Maximum size 5MB.
+                    </p>
+                  </Dragger>
+                ) : (
+                  <div className="uploaded-image-container">
+                    <div className="image-preview-wrapper">
+                      <img
+                        src={previewUrl}
+                        alt="Memory preview"
+                        className="uploaded-image-preview"
+                      />
+
+                      {/* Upload progress overlay */}
+                      {uploading && (
+                        <div className="upload-loading-overlay">
+                          <div className="upload-progress-content">
+                            <Spin
+                              indicator={
+                                <LoadingOutlined
+                                  style={{ fontSize: 24 }}
+                                  spin
+                                />
+                              }
+                            />
+                            <p className="upload-loading-text">
+                              Uploading image...
+                            </p>
+                            <Progress
+                              percent={uploadProgress}
+                              size="small"
+                              status={
+                                uploadProgress === 100 ? 'success' : 'active'
+                              }
+                              className="upload-progress-bar"
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {!uploading && (
+                        <div className="image-overlay">
+                          <Button
+                            type="text"
+                            icon={<PlusOutlined />}
+                            onClick={handleRemoveImage}
+                            className="change-image-btn"
+                          >
+                            Change Image
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="file-info mt-2">
+                      <p className="text-sm text-gray-600">
+                        Selected: {selectedFile.name} (
+                        {(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </Form.Item>
+            </Col>
+          </Row>
+
           <Row gutter={24}>
             <Col xs={24} md={12}>
               <Form.Item
@@ -136,6 +316,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       size="large"
                       className="w-full"
                       suffixIcon={<CalendarOutlined />}
+                      disabled={isFormDisabled}
                     />
                   )}
                 />
@@ -157,28 +338,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       placeholder="Where did this happen?"
                       size="large"
                       prefix={<EnvironmentOutlined />}
-                    />
-                  )}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row gutter={24}>
-            <Col span={24}>
-              <Form.Item
-                label="Image URL"
-                validateStatus={errors.imageUrl ? 'error' : ''}
-                help={errors.imageUrl?.message}
-              >
-                <Controller
-                  name="imageUrl"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      placeholder="https://example.com/image.jpg"
-                      size="large"
+                      disabled={isFormDisabled}
                     />
                   )}
                 />
@@ -203,6 +363,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       placeholder="Select your mood"
                       size="large"
                       suffixIcon={<SmileOutlined />}
+                      disabled={isFormDisabled}
                     >
                       <Option value="happy">😊 Happy</Option>
                       <Option value="peaceful">😌 Peaceful</Option>
@@ -231,6 +392,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       value={field.value}
                       size="large"
                       defaultValue="public"
+                      disabled={isFormDisabled}
                     >
                       <Option value="public">🌍 Public</Option>
                       <Option value="private">🔒 Private</Option>
@@ -263,6 +425,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       style={{ width: '100%' }}
                       dropdownStyle={{ display: 'none' }}
                       suffixIcon={<TagsOutlined />}
+                      disabled={isFormDisabled}
                     />
                   )}
                 />
@@ -271,20 +434,28 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
           </Row>
         </Card>
 
-        {/* Submit Actions */}
         <Card className="text-center">
           <Space size="large">
-            <Button size="large" onClick={() => window.history.back()}>
+            <Button
+              size="large"
+              onClick={() => window.history.back()}
+              disabled={isFormDisabled}
+            >
               Cancel
             </Button>
             <Button
               type="primary"
               htmlType="submit"
-              loading={isSubmitting}
+              loading={isSubmitting || uploading}
               size="large"
               className="min-w-[140px]"
+              disabled={isFormDisabled}
             >
-              {isSubmitting ? 'Creating...' : 'Create Memory'}
+              {uploading
+                ? 'Uploading...'
+                : isSubmitting
+                  ? 'Creating...'
+                  : 'Create Memory'}
             </Button>
           </Space>
         </Card>
