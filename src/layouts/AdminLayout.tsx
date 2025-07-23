@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-
+import { Toaster } from 'sonner';
 export const AdminLayout = () => {
   return (
     <div className="flex h-screen">
@@ -10,7 +10,7 @@ export const AdminLayout = () => {
         <main className="flex-1">
           <SidebarInset>
             <Outlet />
-            {/* <Toaster /> */}
+            <Toaster />
           </SidebarInset>
         </main>
       </SidebarProvider>

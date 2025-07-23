@@ -246,26 +246,23 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
               <Form.Item
                 label="Tags"
                 validateStatus={errors.tags ? 'error' : ''}
-                help={errors.tags?.message || 'Separate tags with commas'}
+                help={
+                  errors.tags?.message || 'Type and press Enter to add tags'
+                }
               >
                 <Controller
                   name="tags"
                   control={control}
                   render={({ field }) => (
-                    <Input
-                      value={
-                        Array.isArray(field.value) ? field.value.join(', ') : ''
-                      }
-                      onChange={(e) => {
-                        const tagsArray = e.target.value
-                          .split(',')
-                          .map((tag) => tag.trim())
-                          .filter((tag) => tag.length > 0);
-                        field.onChange(tagsArray);
-                      }}
-                      placeholder="meditation, peace, morning (comma separated)"
+                    <Select
+                      {...field}
+                      mode="tags"
                       size="large"
-                      prefix={<TagsOutlined />}
+                      placeholder="meditation, peace, morning..."
+                      tokenSeparators={[',', ' ']}
+                      style={{ width: '100%' }}
+                      dropdownStyle={{ display: 'none' }}
+                      suffixIcon={<TagsOutlined />}
                     />
                   )}
                 />

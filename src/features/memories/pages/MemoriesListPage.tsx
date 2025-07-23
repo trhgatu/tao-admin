@@ -1,30 +1,42 @@
 // src/features/users/pages/UserListPage.tsx
 import { useEffect, useState } from 'react';
-import { getMemories } from '../services/memoriesService';
+import { getMemories, deleteMemory } from '../services/memoriesService';
 import { MemoriesTable } from '../components';
 import type { IMemory } from '@/types';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
+import { toast } from 'sonner';
 
 export const MemoriesListPage = () => {
   const navigate = useNavigate();
   const [memories, setMemories] = useState<IMemory[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const fetchMemories = async () => {
+    try {
+      setLoading(true);
+      const res = await getMemories();
+      setMemories(res.data);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchMemories = async () => {
-      try {
-        setLoading(true);
-        const res = await getMemories();
-        setMemories(res.data);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMemories();
   }, []);
 
+  //handle delete
+  const handleDelete = async (memory: IMemory) => {
+    try {
+      await deleteMemory(memory._id);
+      toast.success(`Xóa kỉ niệm thành công: ${memory.title}`);
+      fetchMemories();
+    } catch {
+      toast.error('Delete failed');
+    }
+  };
   return (
     <div className="p-4 space-y-4">
       <h2 className="text-xl font-semibold">Memories Management</h2>
@@ -40,7 +52,7 @@ export const MemoriesListPage = () => {
       {loading ? (
         <p>Loading blogs...</p>
       ) : (
-        <MemoriesTable memories={memories} />
+        <MemoriesTable memories={memories} onDelete={handleDelete} />
       )}
     </div>
   );

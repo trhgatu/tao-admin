@@ -27,3 +27,8 @@ export const createMemory = async (data: MemoryInput): Promise<IMemory> => {
   const res = await axiosInstance.post('/memories/create', data);
   return res.data;
 };
+
+export const deleteMemory = async (id: string): Promise<void> => {
+  const res = await axiosInstance.delete(`/memories/soft-delete/${id}`);
+  return res.data;
+};

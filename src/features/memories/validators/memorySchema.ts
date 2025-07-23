@@ -1,8 +1,5 @@
 import { z } from 'zod';
-import {
-  MemoryMoodEnumOptions,
-  ContentStatusEnumOptions,
-} from '@/enums/memory.enum';
+import { MemoryMoodEnumOptions, ContentStatusEnumOptions } from '@/enums';
 
 export const memorySchema = z.object({
   title: z.string().min(1, 'Title is required'),
