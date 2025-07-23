@@ -24,6 +24,6 @@ export const getMemories = async (
 };
 
 export const createMemory = async (data: MemoryInput): Promise<IMemory> => {
-  const res = await axiosInstance.post('/memories', data);
+  const res = await axiosInstance.post('/memories/create', data);
   return res.data;
 };
