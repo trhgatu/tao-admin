@@ -1,17 +1,19 @@
 import { Outlet } from 'react-router-dom';
-import { Sidebar } from '@/components/layout/Sidebar';
-import { Header } from '@/components/layout/Header';
+import { AppSidebar } from '@/components/app-sidebar';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 
 export const AdminLayout = () => {
   return (
     <div className="flex h-screen">
-      <Sidebar />
-      <div className="flex flex-col flex-1">
-        <Header />
-        <main className="p-4 overflow-y-auto flex-1 bg-gray-50">
-          <Outlet />
+      <SidebarProvider>
+        <AppSidebar />
+        <main className="flex-1">
+          <SidebarInset>
+            <Outlet />
+            {/* <Toaster /> */}
+          </SidebarInset>
         </main>
-      </div>
+      </SidebarProvider>
     </div>
   );
 };
