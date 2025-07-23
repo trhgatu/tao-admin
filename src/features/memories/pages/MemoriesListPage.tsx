@@ -37,6 +37,10 @@ export const MemoriesListPage = () => {
       toast.error('Delete failed');
     }
   };
+
+  const handleView = (memory: IMemory) => {
+    navigate(`/memories/${memory._id}`);
+  };
   return (
     <div className="p-4 space-y-4">
       <h2 className="text-xl font-semibold">Memories Management</h2>
@@ -52,7 +56,11 @@ export const MemoriesListPage = () => {
       {loading ? (
         <p>Loading blogs...</p>
       ) : (
-        <MemoriesTable memories={memories} onDelete={handleDelete} />
+        <MemoriesTable
+          memories={memories}
+          onDelete={handleDelete}
+          onView={handleView}
+        />
       )}
     </div>
   );

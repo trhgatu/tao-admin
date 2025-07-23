@@ -32,3 +32,8 @@ export const deleteMemory = async (id: string): Promise<void> => {
   const res = await axiosInstance.delete(`/memories/soft-delete/${id}`);
   return res.data;
 };
+
+export const getMemoryById = async (id: string): Promise<IMemory> => {
+  const res = await axiosInstance.get(`/memories/${id}`);
+  return res.data.data;
+};
