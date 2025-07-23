@@ -1,12 +1,16 @@
 import type { IQuote } from '@/types/quote';
-import { Table, Tag } from 'antd';
+import { Table, Tag, Button, Space, Popconfirm } from 'antd';
+import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 
 interface Props {
   quotes: IQuote[];
+  onView?: (quote: IQuote) => void;
+  onEdit?: (quote: IQuote) => void;
+  onDelete?: (quote: IQuote) => void;
 }
 
-export const QuoteTable = ({ quotes }: Props) => {
+export const QuoteTable = ({ quotes, onView, onEdit, onDelete }: Props) => {
   const columns: ColumnsType<IQuote> = [
     {
       title: 'Quote',
@@ -63,6 +67,35 @@ export const QuoteTable = ({ quotes }: Props) => {
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (date: string) => new Date(date).toLocaleDateString(),
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      width: 120,
+      render: (_: string, record: IQuote) => (
+        <Space>
+          <Button
+            icon={<EyeOutlined />}
+            onClick={() => onView?.(record)}
+            title="Xem chi tiết"
+            type="link"
+          />
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => onEdit?.(record)}
+            title="Chỉnh sửa"
+            type="link"
+          />
+          <Popconfirm
+            title="Bạn chắc chắn muốn xóa quote này?"
+            onConfirm={() => onDelete?.(record)}
+            okText="Xóa"
+            cancelText="Hủy"
+          >
+            <Button icon={<DeleteOutlined />} title="Xóa" danger type="link" />
+          </Popconfirm>
+        </Space>
+      ),
     },
   ];
 

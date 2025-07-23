@@ -1,6 +1,6 @@
-// src/features/users/services/blogService.ts
 import axiosInstance from '@/services/axios';
 import type { IMemory } from '@/types';
+import type { MemoryInput } from '../validators/memorySchema';
 
 export interface GetMemoriesParams {
   page?: number;
@@ -20,5 +20,10 @@ export const getMemories = async (
   };
 }> => {
   const res = await axiosInstance.get('/memories', { params });
+  return res.data;
+};
+
+export const createMemory = async (data: MemoryInput): Promise<IMemory> => {
+  const res = await axiosInstance.post('/memories', data);
   return res.data;
 };
