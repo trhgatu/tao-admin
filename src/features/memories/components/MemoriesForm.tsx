@@ -70,12 +70,12 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
     beforeUpload: (file) => {
       const isImage = file.type.startsWith('image/');
       if (!isImage) {
-        message.error('You can only upload image files!');
+        message.error('Bạn chỉ có thể tải lên tệp hình ảnh!');
         return false;
       }
       const isLt5M = file.size / 1024 / 1024 < 5;
       if (!isLt5M) {
-        message.error('Image must be smaller than 5MB!');
+        message.error('Hình ảnh phải nhỏ hơn 5MB!');
         return false;
       }
       setSelectedFile(file);
@@ -111,9 +111,9 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
         clearInterval(progressInterval);
         setUploadProgress(100);
 
-        message.success('Image uploaded successfully!');
+        message.success('Tải hình ảnh lên thành công!');
       } catch {
-        message.error('Failed to upload image. Please try again.');
+        message.error('Tải hình ảnh lên thất bại. Vui lòng thử lại.');
         setUploading(false);
         setUploadProgress(0);
         return;
@@ -146,7 +146,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
         <Card
           title={
             <Title level={4} className="mb-0">
-              📝 Basic Information
+              📝 Thông tin cơ bản
             </Title>
           }
           className="mb-6"
@@ -154,7 +154,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item
-                label="Title"
+                label="Tiêu đề"
                 required
                 validateStatus={errors.title ? 'error' : ''}
                 help={errors.title?.message}
@@ -165,7 +165,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                   render={({ field }) => (
                     <Input
                       {...field}
-                      placeholder="Enter memory title..."
+                      placeholder="Nhập tiêu đề kỷ niệm..."
                       size="large"
                       disabled={isFormDisabled}
                     />
@@ -176,7 +176,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
 
             <Col span={24}>
               <Form.Item
-                label="Description"
+                label="Mô tả"
                 validateStatus={errors.description ? 'error' : ''}
                 help={errors.description?.message}
               >
@@ -186,7 +186,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                   render={({ field }) => (
                     <TextArea
                       {...field}
-                      placeholder="Describe your memory in detail..."
+                      placeholder="Mô tả kỷ niệm của bạn một cách chi tiết..."
                       rows={4}
                       size="large"
                       disabled={isFormDisabled}
@@ -202,7 +202,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
         <Card
           title={
             <Title level={4} className="mb-0">
-              🎯 Details
+              🎯 Chi tiết
             </Title>
           }
           className="mb-6"
@@ -211,8 +211,8 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item
-                label="Memory Image"
-                help="Select an image to represent this memory (Max 5MB, JPG/PNG). Image will be uploaded when you create the memory."
+                label="Hình ảnh kỷ niệm"
+                help="Chọn một hình ảnh để đại diện cho kỷ niệm này (Tối đa 5MB, JPG/PNG). Hình ảnh sẽ được tải lên khi bạn tạo kỷ niệm."
               >
                 {!selectedFile ? (
                   <Dragger
@@ -226,11 +226,11 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       />
                     </p>
                     <p className="ant-upload-text">
-                      Click or drag image to this area to select
+                      Nhấp hoặc kéo hình ảnh vào khu vực này để chọn
                     </p>
                     <p className="ant-upload-hint">
-                      Image will be uploaded when you create the memory. Support
-                      JPG, PNG files. Maximum size 5MB.
+                      Hình ảnh sẽ được tải lên khi bạn tạo kỷ niệm. Hỗ trợ các
+                      tệp JPG, PNG. Kích thước tối đa 5MB.
                     </p>
                   </Dragger>
                 ) : (
@@ -238,7 +238,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                     <div className="image-preview-wrapper">
                       <img
                         src={previewUrl}
-                        alt="Memory preview"
+                        alt="Xem trước kỷ niệm"
                         className="uploaded-image-preview"
                       />
 
@@ -255,7 +255,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                               }
                             />
                             <p className="upload-loading-text">
-                              Uploading image...
+                              Đang tải hình ảnh lên...
                             </p>
                             <Progress
                               percent={uploadProgress}
@@ -277,7 +277,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                             onClick={handleRemoveImage}
                             className="change-image-btn"
                           >
-                            Change Image
+                            Đổi hình ảnh
                           </Button>
                         </div>
                       )}
@@ -285,7 +285,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
 
                     <div className="file-info mt-2">
                       <p className="text-sm text-gray-600">
-                        Selected: {selectedFile.name} (
+                        Đã chọn: {selectedFile.name} (
                         {(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
                       </p>
                     </div>
@@ -298,7 +298,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
           <Row gutter={24}>
             <Col xs={24} md={12}>
               <Form.Item
-                label="Date"
+                label="Ngày"
                 validateStatus={errors.date ? 'error' : ''}
                 help={errors.date?.message}
               >
@@ -312,7 +312,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       onChange={(date) =>
                         field.onChange(date?.format('YYYY-MM-DD'))
                       }
-                      placeholder="Select date"
+                      placeholder="Chọn ngày"
                       size="large"
                       className="w-full"
                       suffixIcon={<CalendarOutlined />}
@@ -325,7 +325,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
 
             <Col xs={24} md={12}>
               <Form.Item
-                label="Location"
+                label="Địa điểm"
                 validateStatus={errors.location ? 'error' : ''}
                 help={errors.location?.message}
               >
@@ -335,7 +335,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                   render={({ field }) => (
                     <Input
                       {...field}
-                      placeholder="Where did this happen?"
+                      placeholder="Điều này xảy ra ở đâu?"
                       size="large"
                       prefix={<EnvironmentOutlined />}
                       disabled={isFormDisabled}
@@ -349,7 +349,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
           <Row gutter={24}>
             <Col xs={24} md={12}>
               <Form.Item
-                label="Mood"
+                label="Tâm trạng"
                 validateStatus={errors.mood ? 'error' : ''}
                 help={errors.mood?.message}
               >
@@ -360,17 +360,17 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                     <Select
                       {...field}
                       value={field.value}
-                      placeholder="Select your mood"
+                      placeholder="Chọn tâm trạng của bạn"
                       size="large"
                       suffixIcon={<SmileOutlined />}
                       disabled={isFormDisabled}
                     >
-                      <Option value="happy">😊 Happy</Option>
-                      <Option value="peaceful">😌 Peaceful</Option>
-                      <Option value="excited">🤩 Excited</Option>
-                      <Option value="nostalgic">🥺 Nostalgic</Option>
-                      <Option value="grateful">🙏 Grateful</Option>
-                      <Option value="reflective">🤔 Reflective</Option>
+                      <Option value="happy">😊 Vui vẻ</Option>
+                      <Option value="peaceful">😌 Bình yên</Option>
+                      <Option value="excited">🤩 Hưng phấn</Option>
+                      <Option value="nostalgic">🥺 Hoài niệm</Option>
+                      <Option value="grateful">🙏 Biết ơn</Option>
+                      <Option value="reflective">🤔 Suy ngẫm</Option>
                     </Select>
                   )}
                 />
@@ -379,7 +379,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
 
             <Col xs={24} md={12}>
               <Form.Item
-                label="Status"
+                label="Trạng thái"
                 validateStatus={errors.status ? 'error' : ''}
                 help={errors.status?.message}
               >
@@ -394,8 +394,8 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       defaultValue="public"
                       disabled={isFormDisabled}
                     >
-                      <Option value="public">🌍 Public</Option>
-                      <Option value="private">🔒 Private</Option>
+                      <Option value="public">🌍 Công khai</Option>
+                      <Option value="private">🔒 Riêng tư</Option>
                     </Select>
                   )}
                 />
@@ -406,11 +406,9 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item
-                label="Tags"
+                label="Thẻ"
                 validateStatus={errors.tags ? 'error' : ''}
-                help={
-                  errors.tags?.message || 'Type and press Enter to add tags'
-                }
+                help={errors.tags?.message || 'Nhập và nhấn Enter để thêm thẻ'}
               >
                 <Controller
                   name="tags"
@@ -420,7 +418,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
                       {...field}
                       mode="tags"
                       size="large"
-                      placeholder="meditation, peace, morning..."
+                      placeholder="thiền định, bình yên, buổi sáng..."
                       tokenSeparators={[',', ' ']}
                       style={{ width: '100%' }}
                       dropdownStyle={{ display: 'none' }}
@@ -441,7 +439,7 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
               onClick={() => window.history.back()}
               disabled={isFormDisabled}
             >
-              Cancel
+              Hủy
             </Button>
             <Button
               type="primary"
@@ -452,10 +450,10 @@ export const MemoryForm = ({ defaultValues, onSubmit }: Props) => {
               disabled={isFormDisabled}
             >
               {uploading
-                ? 'Uploading...'
+                ? 'Đang tải lên...'
                 : isSubmitting
-                  ? 'Creating...'
-                  : 'Create Memory'}
+                  ? 'Đang tạo...'
+                  : 'Tạo kỷ niệm'}
             </Button>
           </Space>
         </Card>

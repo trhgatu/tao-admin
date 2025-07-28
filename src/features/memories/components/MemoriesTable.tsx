@@ -47,7 +47,7 @@ export const MemoriesTable = ({
 
   const columns: ColumnsType<IMemory> = [
     {
-      title: 'Memory',
+      title: 'Kỉ niệm',
       key: 'memory',
       width: 300,
       render: (_unused, record: IMemory) => (
@@ -104,7 +104,7 @@ export const MemoriesTable = ({
       ),
     },
     {
-      title: 'Details',
+      title: 'Chi tiết',
       key: 'details',
       width: 200,
       render: (_unused, record: IMemory) => (
@@ -140,7 +140,7 @@ export const MemoriesTable = ({
       ),
     },
     {
-      title: 'Tags',
+      title: 'Thẻ',
       dataIndex: 'tags',
       key: 'tags',
       width: 180,
@@ -166,7 +166,7 @@ export const MemoriesTable = ({
       ),
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
       width: 100,
@@ -187,7 +187,7 @@ export const MemoriesTable = ({
       ),
     },
     {
-      title: 'Created',
+      title: 'Tạo vào',
       dataIndex: 'createdAt',
       key: 'createdAt',
       width: 120,
@@ -198,7 +198,7 @@ export const MemoriesTable = ({
       ),
     },
     {
-      title: 'Actions',
+      title: 'Hành động',
       key: 'actions',
       width: 120,
       fixed: 'right',
