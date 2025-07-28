@@ -103,8 +103,13 @@ export const MemoriesDetailPage = () => {
 
         <Row gutter={[24, 24]}>
           <Col xs={24} lg={16}>
-            <MemoryImageCard imageUrl={memory.imageUrl} title={memory.title} />
-            <MemoryDescription description={memory.description} />
+            <Space direction="vertical" size="middle">
+              <MemoryImageCard
+                imageUrl={memory.imageUrl}
+                title={memory.title}
+              />
+              <MemoryDescription description={memory.description} />
+            </Space>
           </Col>
           <Col xs={24} lg={8}>
             <MemorySidebar memory={memory} />
