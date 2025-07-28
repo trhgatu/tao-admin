@@ -15,7 +15,7 @@ export const MemoryCreatePage = () => {
       await createMemory(data);
       navigate('/memories');
     } catch (error) {
-      console.error('Failed to create memory:', error);
+      console.error('Tạo kỷ niệm thất bại:', error);
     }
   };
 
@@ -35,7 +35,7 @@ export const MemoryCreatePage = () => {
               type="text"
               className="flex items-center text-gray-600 hover:text-gray-900"
             >
-              Back to Memories
+              Quay lại Kỷ niệm
             </Button>
           </Space>
 
@@ -44,13 +44,13 @@ export const MemoryCreatePage = () => {
               <PlusOutlined className="text-white text-lg" />
             </div>
             <Title level={2} className="m-0 text-gray-900">
-              Create New Memory
+              Tạo Kỷ niệm Mới
             </Title>
           </div>
 
           <Text className="text-gray-600 text-base">
-            Add a new memory to your collection. Fill in the details below to
-            get started.
+            Thêm một kỷ niệm mới vào bộ sưu tập của bạn. Điền thông tin bên dưới
+            để bắt đầu.
           </Text>
         </div>
 
@@ -64,7 +64,7 @@ export const MemoryCreatePage = () => {
         {/* Footer Actions (Optional) */}
         <div className="mt-6 flex justify-end">
           <Button onClick={handleGoBack} className="mr-3">
-            Cancel
+            Hủy
           </Button>
         </div>
       </div>

@@ -45,8 +45,8 @@ export const MemoriesDetailPage = () => {
         const data = await getMemoryById(id);
         setMemory(data);
       } catch (err) {
-        setError('Failed to load memory details');
-        console.error('Load memory error:', err);
+        setError('Không thể tải chi tiết kỷ niệm');
+        console.error('Lỗi tải kỷ niệm:', err);
       } finally {
         setLoading(false);
       }
@@ -91,11 +91,11 @@ export const MemoriesDetailPage = () => {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-6">
           <Alert
-            message="Error"
-            description={error || 'Memory not found'}
+            message="Lỗi"
+            description={error || 'Không tìm thấy kỷ niệm'}
             type="error"
             showIcon
-            action={<Button onClick={handleGoBack}>Back to Memories</Button>}
+            action={<Button onClick={handleGoBack}>Quay lại Kỷ niệm</Button>}
           />
         </div>
       </div>
@@ -114,7 +114,7 @@ export const MemoriesDetailPage = () => {
               type="text"
               className="flex items-center text-gray-600 hover:text-gray-900"
             >
-              Back to Memories
+              Quay lại Kỷ niệm
             </Button>
           </Space>
 
@@ -126,7 +126,8 @@ export const MemoriesDetailPage = () => {
 
               <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
                 <span>
-                  Created on {new Date(memory.createdAt).toLocaleDateString()}
+                  Tạo vào{' '}
+                  {new Date(memory.createdAt).toLocaleDateString('vi-VN')}
                 </span>
                 {memory.slug && (
                   <code className="bg-gray-100 px-2 py-1 rounded">
@@ -137,7 +138,7 @@ export const MemoriesDetailPage = () => {
             </div>
 
             <Space>
-              <Tooltip title="Share">
+              <Tooltip title="Chia sẻ">
                 <Button icon={<ShareAltOutlined />} />
               </Tooltip>
               <Button
@@ -145,7 +146,7 @@ export const MemoriesDetailPage = () => {
                 onClick={handleEdit}
                 type="primary"
               >
-                Edit
+                Chỉnh sửa
               </Button>
             </Space>
           </div>
@@ -172,14 +173,14 @@ export const MemoriesDetailPage = () => {
             )}
 
             {/* Description */}
-            <Card title="Description" className="mb-6">
+            <Card title="Mô tả" className="mb-6">
               {memory.description ? (
                 <Paragraph className="text-base leading-relaxed whitespace-pre-wrap">
                   {memory.description}
                 </Paragraph>
               ) : (
                 <Text type="secondary" italic>
-                  No description provided
+                  Không có mô tả nào được cung cấp
                 </Text>
               )}
             </Card>
@@ -188,10 +189,10 @@ export const MemoriesDetailPage = () => {
           {/* Sidebar */}
           <Col xs={24} lg={8}>
             {/* Status & Basic Info */}
-            <Card title="Memory Details" className="mb-6">
+            <Card title="Chi tiết Kỷ niệm" className="mb-6">
               <div className="space-y-4">
                 <div>
-                  <Text strong>Status:</Text>
+                  <Text strong>Trạng thái:</Text>
                   <div className="mt-1">
                     <Tag
                       color={
@@ -203,7 +204,11 @@ export const MemoriesDetailPage = () => {
                       }
                       className="text-sm"
                     >
-                      {memory.status?.toUpperCase() || 'UNKNOWN'}
+                      {memory.status === 'public'
+                        ? 'CÔNG KHAI'
+                        : memory.status === 'private'
+                          ? 'RIÊNG TƯ'
+                          : 'KHÔNG XÁC ĐỊNH'}
                     </Tag>
                   </div>
                 </div>
@@ -212,10 +217,10 @@ export const MemoriesDetailPage = () => {
                   <div>
                     <Text strong>
                       <CalendarOutlined className="mr-2" />
-                      Memory Date:
+                      Ngày kỷ niệm:
                     </Text>
                     <div className="mt-1 text-gray-600">
-                      {new Date(memory.date).toLocaleDateString('en-US', {
+                      {new Date(memory.date).toLocaleDateString('vi-VN', {
                         weekday: 'long',
                         year: 'numeric',
                         month: 'long',
@@ -229,7 +234,7 @@ export const MemoriesDetailPage = () => {
                   <div>
                     <Text strong>
                       <EnvironmentOutlined className="mr-2" />
-                      Location:
+                      Địa điểm:
                     </Text>
                     <div className="mt-1 text-gray-600">{memory.location}</div>
                   </div>
@@ -237,13 +242,25 @@ export const MemoriesDetailPage = () => {
 
                 {memory.mood && (
                   <div>
-                    <Text strong>Mood:</Text>
+                    <Text strong>Tâm trạng:</Text>
                     <div className="mt-1 flex items-center gap-2">
                       <span className="text-xl">
                         {getMoodEmoji(memory.mood)}
                       </span>
                       <span className="capitalize text-gray-600">
-                        {memory.mood}
+                        {memory.mood === 'happy'
+                          ? 'vui vẻ'
+                          : memory.mood === 'peaceful'
+                            ? 'bình yên'
+                            : memory.mood === 'excited'
+                              ? 'hưng phấn'
+                              : memory.mood === 'nostalgic'
+                                ? 'hoài niệm'
+                                : memory.mood === 'grateful'
+                                  ? 'biết ơn'
+                                  : memory.mood === 'reflective'
+                                    ? 'suy ngẫm'
+                                    : memory.mood}
                       </span>
                     </div>
                   </div>
@@ -257,7 +274,7 @@ export const MemoriesDetailPage = () => {
                 title={
                   <span>
                     <TagsOutlined className="mr-2" />
-                    Tags
+                    Thẻ
                   </span>
                 }
                 className="mb-6"
@@ -273,21 +290,25 @@ export const MemoriesDetailPage = () => {
             )}
 
             {/* Metadata */}
-            <Card title="Metadata" size="small">
+            <Card title="Siêu dữ liệu" size="small">
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <Text type="secondary">Created:</Text>
-                  <Text>{new Date(memory.createdAt).toLocaleDateString()}</Text>
+                  <Text type="secondary">Tạo vào:</Text>
+                  <Text>
+                    {new Date(memory.createdAt).toLocaleDateString('vi-VN')}
+                  </Text>
                 </div>
                 <div className="flex justify-between">
-                  <Text type="secondary">Updated:</Text>
-                  <Text>{new Date(memory.updatedAt).toLocaleDateString()}</Text>
+                  <Text type="secondary">Cập nhật:</Text>
+                  <Text>
+                    {new Date(memory.updatedAt).toLocaleDateString('vi-VN')}
+                  </Text>
                 </div>
                 {memory.autoTranslated !== undefined && (
                   <div className="flex justify-between">
-                    <Text type="secondary">Auto Translated:</Text>
+                    <Text type="secondary">Tự động dịch:</Text>
                     <Tag color={memory.autoTranslated ? 'blue' : 'default'}>
-                      {memory.autoTranslated ? 'Yes' : 'No'}
+                      {memory.autoTranslated ? 'Có' : 'Không'}
                     </Tag>
                   </div>
                 )}
